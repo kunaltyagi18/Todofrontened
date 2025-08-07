@@ -24,13 +24,18 @@ function Signup() {
     );
     const data = await response.json();
     setAuthLoading(false);
-    if (data.message === "User registered") {
-      setSuccess(true);
-      setTimeout(() => navigate("/login"), 1500);
-    } else {
-      setAuthError(data.message || "Signup failed");
-    }
-  };
+   if (data.token) {
+    // ✅ If backend sends token, auto-login
+    localStorage.setItem("token", data.token);
+    window.location.href = "/";
+  } else if (data.message === "User registered") {
+    // ✅ If no token, show success and go to login
+    setSuccess(true);
+    setTimeout(() => navigate("/login"), 1500);
+  } else {
+    setAuthError(data.message || "Signup failed");
+  }
+};
 
   return (
     <div className="max-w-md mx-auto mt-16 p-8 bg-orange-50 rounded-xl shadow-lg border border-orange-200">
@@ -90,3 +95,4 @@ function Signup() {
 
 
 export default Signup;
+

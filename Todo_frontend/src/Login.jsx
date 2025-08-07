@@ -24,10 +24,10 @@ export default function Login({ setToken }) {
     const data = await response.json();
     setAuthLoading(false);
     if (data.token) {
-      setToken(data.token);
-      localStorage.setItem("token", data.token);
-      navigate("/");
-    } else {
+  localStorage.setItem("token", data.token);
+  window.location.href = "/"; // ✅ Forces app to reload with token
+}
+ else {
       setAuthError(data.message || "Login failed");
     }
   };
@@ -97,3 +97,4 @@ export default function Login({ setToken }) {
   );
 
 }
+
